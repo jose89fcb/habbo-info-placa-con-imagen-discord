@@ -21,9 +21,18 @@ async def infoplaca(ctx, *, placa):
     
     response = requests.get(f"https://www.habbotravel.com/getBadgeInfo.php?badge="+placa+ "&hotel=es") 
     #habbo =  response.json()['code']
-    nombre = response.json()['name']
-    descripcion = response.json()['desc']
+    try:
 
+     nombre = response.json()['name']
+    except KeyError:
+        nombre="Aun no tiene Nombre"
+
+    ####
+    try:
+
+     descripcion = response.json()['desc']
+    except KeyError:
+        descripcion="Aun no tiene descripción"
     
     url="https://images.habbo.com/c_images/album1584/"+placa+ ".png"
 
@@ -31,7 +40,7 @@ async def infoplaca(ctx, *, placa):
     
     
     img1 = Image.open(io.BytesIO(requests.get(url).content)).convert("RGBA")
-    img1 = img1.resize((90,90), Image.ANTIALIAS)
+    img1 = img1.resize((90,90), Image.Resampling.LANCZOS)
     img2 = img1.copy()
 
    
